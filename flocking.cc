@@ -383,30 +383,14 @@ int main(int argc, char** argv)
 				case 7777:	//for r[0]
 					rx[0] = mtoi(pp.GetXPos()); ry[0] = mtoi(pp.GetYPos()); counted[0]=true; rxspeed[0]=pp.GetXSpeed(); ryspeed[0]=pp.GetYSpeed(); ryaw[0] = ppyaw;
 					nbytes = listen_to_robot(lr[1],msg2);
-					parse_msg(msg2, &rx[1], &ry[1], &rxspeed[1], &ryspeed[1], &ryaw[1]);
-					if(calcDistance(rx[0], rx[1], ry[0], ry[1]) <= d_sense && counted[1] == false) {counter++; counted[1] = true;}
-					if(calcDistance(rx[0], rx[1], ry[0], ry[1]) > d_sense && counted[1] == true) {counter--; counted[1] = false; rx[1]=999.0; ry[1]=999.0;}
-
-					nbytes = listen_to_robot(lr[2],msg3);
-					parse_msg(msg3, &rx[2], &ry[2], &rxspeed[2], &ryspeed[2], &ryaw[2]);
-					if(calcDistance(rx[0], rx[2], ry[0], ry[2]) <= d_sense && counted[2] == false) {counter++; counted[2] = true;}
-					if(calcDistance(rx[0], rx[2], ry[0], ry[2]) > d_sense && counted[2] == true) {counter--; counted[2] = false;rx[2]=999.0; ry[2]=999.0;}
-
-					nbytes = listen_to_robot(lr[3],msg4);
-					parse_msg(msg4, &rx[3], &ry[3], &rxspeed[3], &ryspeed[3], &ryaw[3]);
-					if(calcDistance(rx[0], rx[3], ry[0], ry[3]) <= d_sense && counted[3] == false) {counter++; counted[3] = true;}
-					if(calcDistance(rx[0], rx[3], ry[0], ry[3]) > d_sense && counted[3] == true) {counter--; counted[3] = false;rx[3]=999.0; ry[3]=999.0;}
-
-					nbytes = listen_to_robot(lr[4],msg5);
-					parse_msg(msg5, &rx[4], &ry[4], &rxspeed[4], &ryspeed[4], &ryaw[4]);
-					if(calcDistance(rx[0], rx[4], ry[0], ry[4]) <= d_sense && counted[4] == false) {counter++; counted[4] = true;}
-					if(calcDistance(rx[0], rx[4], ry[0], ry[4]) > d_sense && counted[4] == true) {counter--; counted[4] = false;rx[4]=999.0; ry[4]=999.0;}
-
-					nbytes = listen_to_robot(lr[5],msg6);
-					parse_msg(msg6, &rx[5], &ry[5], &rxspeed[5], &ryspeed[5], &ryaw[5]);
-					if(calcDistance(rx[0], rx[5], ry[0], ry[5]) <= d_sense && counted[5] == false) {counter++; counted[5] = true;}
-					if(calcDistance(rx[0], rx[5], ry[0], ry[5]) > d_sense && counted[5] == true) {counter--; counted[5] = false;rx[5]=999.0; ry[5]=999.0;}
-				
+					
+					for (int i = 0; i < 6; ++i)
+					{
+						nbytes = listen_to_robot(lr[i],msg);
+						parse_msg(msg, &rx[i], &ry[i], &rxspeed[i], &ryspeed[i], &ryaw[i]);
+						if(calcDistance(rx[i], rx[0], ry[i], ry[0]) <= d_sense && counted[i] == false) {counter++; counted[i] = true;}
+						if(calcDistance(rx[i], rx[0], ry[i], ry[0]) > d_sense && counted[i] == true) {counter--; counted[i] = false;rx[i]=999.0; ry[i]=999.0;}
+					}				
 					if(counter > 1){
 						cx = calcCentroidX(rx, counter, counted); 
 						cy = calcCentroidY(ry, counter, counted);
@@ -418,38 +402,18 @@ int main(int argc, char** argv)
 						if(rxspeed[i] == 0 && ryspeed[i] == 0) rSpeed[i] = true;
 						else rSpeed[i] = false;
 					}
+
 					break;
 				case 7778:	//for r[1]
 					rx[1] = mtoi(pp.GetXPos()); ry[1] = mtoi(pp.GetYPos()); counted[1] = true; rxspeed[1]=pp.GetXSpeed(); ryspeed[1]=pp.GetYSpeed();ryaw[1] = ppyaw;
 
-					nbytes = listen_to_robot(lr[0],msg);
-					parse_msg(msg, &rx[0], &ry[0], &rxspeed[0], &ryspeed[0], &ryaw[0]);
-					if(calcDistance(rx[0], rx[1], ry[0], ry[1]) <= d_sense && counted[0] == false) {counter++; counted[0] = true;}
-					if(calcDistance(rx[0], rx[1], ry[0], ry[1]) > d_sense && counted[0] == true) {counter--; counted[0] = false;rx[0]=999.0; ry[0]=999.0;}
-
-					nbytes = listen_to_robot(lr[2],msg3);
-					parse_msg(msg3, &rx[2], &ry[2], &rxspeed[2], &ryspeed[2], &ryaw[2]);
-					if(calcDistance(rx[2], rx[1], ry[2], ry[1]) <= d_sense && counted[2] == false) {counter++; counted[2] = true;}
-					if(calcDistance(rx[2], rx[1], ry[2], ry[1]) > d_sense && counted[2] == true) {counter--; counted[2] = false;rx[2]=999.0; ry[2]=999.0;}
-
-
-					nbytes = listen_to_robot(lr[3],msg4);
-					parse_msg(msg4, &rx[3], &ry[3], &rxspeed[3], &ryspeed[3], &ryaw[3]);
-					if(calcDistance(rx[3], rx[1], ry[3], ry[1]) <= d_sense && counted[3] == false) {counter++; counted[3] = true;}
-					if(calcDistance(rx[3], rx[1], ry[3], ry[1]) > d_sense && counted[3] == true) {counter--; counted[3] = false;rx[3]=999.0; ry[3]=999.0;}
-
-
-					nbytes = listen_to_robot(lr[4],msg5);
-					parse_msg(msg5, &rx[4], &ry[4], &rxspeed[4], &ryspeed[4], &ryaw[4]);
-					if(calcDistance(rx[4], rx[1], ry[4], ry[1]) <= d_sense && counted[4] == false) {counter++; counted[4] = true;}
-					if(calcDistance(rx[4], rx[1], ry[4], ry[1]) > d_sense && counted[4] == true) {counter--; counted[4] = false;rx[4]=999.0; ry[4]=999.0;}
-
-					nbytes = listen_to_robot(lr[5],msg6);
-					parse_msg(msg6, &rx[5], &ry[5], &rxspeed[5], &ryspeed[5], &ryaw[5]);
-					if(calcDistance(rx[5], rx[1], ry[5], ry[1]) <= d_sense && counted[5] == false) {counter++; counted[5] = true;}
-					if(calcDistance(rx[5], rx[1], ry[5], ry[1]) > d_sense && counted[5] == true) {counter--; counted[5] = false;rx[5]=999.0; ry[5]=999.0;}
-
-					
+					for (int i = 0; i < 6; ++i)
+					{
+						nbytes = listen_to_robot(lr[i],msg);
+						parse_msg(msg, &rx[i], &ry[i], &rxspeed[i], &ryspeed[i], &ryaw[i]);
+						if(calcDistance(rx[i], rx[1], ry[i], ry[1]) <= d_sense && counted[i] == false) {counter++; counted[i] = true;}
+						if(calcDistance(rx[i], rx[1], ry[i], ry[1]) > d_sense && counted[i] == true) {counter--; counted[i] = false;rx[i]=999.0; ry[i]=999.0;}
+					}					
 					if(counter > 1){
 						cx = calcCentroidX(rx, counter, counted); 
 						cy = calcCentroidY(ry, counter, counted);
@@ -465,31 +429,13 @@ int main(int argc, char** argv)
 				case 7779: //for r[2]
 					rx[2] = mtoi(pp.GetXPos()); ry[2] = mtoi(pp.GetYPos()); counted[2] = true; rxspeed[2]=pp.GetXSpeed(); ryspeed[2]=pp.GetYSpeed(); ryaw[2] = ppyaw;
 
-					nbytes = listen_to_robot(lr[0],msg);
-					parse_msg(msg, &rx[0], &ry[0], &rxspeed[0], &ryspeed[0], &ryaw[0]);
-					if(calcDistance(rx[0], rx[2], ry[0], ry[2]) <= d_sense && counted[0] == false) {counter++; counted[0] = true;}
-					if(calcDistance(rx[0], rx[2], ry[0], ry[2]) > d_sense && counted[0] == true) {counter--; counted[0] = false;rx[0]=999.0; ry[0]=999.0;}
-
-					nbytes = listen_to_robot(lr[1],msg2);
-					parse_msg(msg2, &rx[1], &ry[1], &rxspeed[1], &ryspeed[1], &ryaw[1]);
-					if(calcDistance(rx[1], rx[2], ry[1], ry[2]) <= d_sense && counted[1] == false) {counter++; counted[1] = true;}
-					if(calcDistance(rx[1], rx[2], ry[1], ry[2]) > d_sense && counted[1] == true) {counter--; counted[1] = false;rx[1]=999.0; ry[1]=999.0;}
-
-					nbytes = listen_to_robot(lr[3],msg4);
-					parse_msg(msg4, &rx[3], &ry[3], &rxspeed[3], &ryspeed[3], &ryaw[3]);
-					if(calcDistance(rx[3], rx[2], ry[3], ry[2]) <= d_sense && counted[3] == false) {counter++; counted[3] = true;}
-					if(calcDistance(rx[3], rx[2], ry[3], ry[2]) > d_sense && counted[3] == true) {counter--; counted[3] = false;rx[3]=999.0; ry[3]=999.0;}
-
-
-					nbytes = listen_to_robot(lr[4],msg5);
-					parse_msg(msg5, &rx[4], &ry[4], &rxspeed[4], &ryspeed[4], &ryaw[4]);
-					if(calcDistance(rx[4], rx[2], ry[4], ry[2]) <= d_sense && counted[4] == false) {counter++; counted[4] = true;}
-					if(calcDistance(rx[4], rx[2], ry[4], ry[2]) > d_sense && counted[4] == true) {counter--; counted[4] = false;rx[4]=999.0; ry[4]=999.0;}
-
-					nbytes = listen_to_robot(lr[5],msg6);
-					parse_msg(msg6, &rx[5], &ry[5], &rxspeed[5], &ryspeed[5], &ryaw[5]);
-					if(calcDistance(rx[5], rx[2], ry[5], ry[2]) <= d_sense && counted[5] == false) {counter++; counted[5] = true;}
-					if(calcDistance(rx[5], rx[2], ry[5], ry[2]) > d_sense && counted[5] == true) {counter--; counted[5] = false;rx[5]=999.0; ry[5]=999.0;}
+					for (int i = 0; i < 6; ++i)
+					{
+						nbytes = listen_to_robot(lr[i],msg);
+						parse_msg(msg, &rx[i], &ry[i], &rxspeed[i], &ryspeed[i], &ryaw[i]);
+						if(calcDistance(rx[i], rx[2], ry[i], ry[2]) <= d_sense && counted[i] == false) {counter++; counted[i] = true;}
+						if(calcDistance(rx[i], rx[2], ry[i], ry[2]) > d_sense && counted[i] == true) {counter--; counted[i] = false;rx[i]=999.0; ry[i]=999.0;}
+					}
 
 					if(counter > 1){
 						cx = calcCentroidX(rx, counter, counted); 
@@ -505,31 +451,14 @@ int main(int argc, char** argv)
 					break;
 				case 7780: //for r[3]
 					rx[3] = mtoi(pp.GetXPos()); ry[3] = mtoi(pp.GetYPos()); counted[3] = true; rxspeed[3]=pp.GetXSpeed(); ryspeed[3]=pp.GetYSpeed();ryaw[3] = ppyaw;
-					nbytes = listen_to_robot(lr[0],msg);
-					parse_msg(msg, &rx[0], &ry[0], &rxspeed[0], &ryspeed[0], &ryaw[0]);
-					if(calcDistance(rx[0], rx[3], ry[0], ry[3]) <= d_sense && counted[0] == false) {counter++; counted[0] = true;}
-					if(calcDistance(rx[0], rx[3], ry[0], ry[3]) > d_sense && counted[0] == true) {counter--; counted[0] = false;rx[0]=999.0; ry[0]=999.0;}
-
-					nbytes = listen_to_robot(lr[1],msg2);
-					parse_msg(msg2, &rx[1], &ry[1], &rxspeed[1], &ryspeed[1], &ryaw[1]);
-					if(calcDistance(rx[1], rx[3], ry[1], ry[3]) <= d_sense && counted[1] == false) {counter++; counted[1] = true;}
-					if(calcDistance(rx[1], rx[3], ry[1], ry[3]) > d_sense && counted[1] == true) {counter--; counted[1] = false;rx[1]=999.0; ry[1]=999.0;}
-
-					nbytes = listen_to_robot(lr[2],msg3);
-					parse_msg(msg3, &rx[2], &ry[2], &rxspeed[2], &ryspeed[2], &ryaw[2]);
-					if(calcDistance(rx[2], rx[3], ry[2], ry[3]) <= d_sense && counted[2] == false) {counter++; counted[2] = true;}
-					if(calcDistance(rx[2], rx[3], ry[2], ry[3]) > d_sense && counted[2] == true) {counter--; counted[2] = false;rx[2]=999.0; ry[2]=999.0;}
-
-					nbytes = listen_to_robot(lr[4],msg5);
-					parse_msg(msg5, &rx[4], &ry[4], &rxspeed[4], &ryspeed[4], &ryaw[4]);
-					if(calcDistance(rx[4], rx[3], ry[4], ry[3]) <= d_sense && counted[4] == false) {counter++; counted[4] = true;}
-					if(calcDistance(rx[4], rx[3], ry[4], ry[3]) > d_sense && counted[4] == true) {counter--; counted[4] = false;rx[4]=999.0; ry[4]=999.0;}
-
-					nbytes = listen_to_robot(lr[5],msg6);
-					parse_msg(msg6, &rx[5], &ry[5], &rxspeed[5], &ryspeed[5], &ryaw[5]);
-					if(calcDistance(rx[5], rx[3], ry[5], ry[3]) <= d_sense && counted[5] == false) {counter++; counted[5] = true;}
-					if(calcDistance(rx[5], rx[3], ry[5], ry[3]) > d_sense && counted[5] == true) {counter--; counted[5] = false;rx[5]=999.0; ry[5]=999.0;}
-
+				
+					for (int i = 0; i < 6; ++i)
+					{
+						nbytes = listen_to_robot(lr[i],msg);
+						parse_msg(msg, &rx[i], &ry[i], &rxspeed[i], &ryspeed[i], &ryaw[i]);
+						if(calcDistance(rx[i], rx[3], ry[i], ry[3]) <= d_sense && counted[i] == false) {counter++; counted[i] = true;}
+						if(calcDistance(rx[i], rx[3], ry[i], ry[3]) > d_sense && counted[i] == true) {counter--; counted[i] = false;rx[i]=999.0; ry[i]=999.0;}
+					}
 					if(counter > 1){
 						cx = calcCentroidX(rx, counter, counted); 
 						cy = calcCentroidY(ry, counter, counted);
@@ -544,30 +473,14 @@ int main(int argc, char** argv)
 					break;
 				case 7781: //for r[4]
 					rx[4] = mtoi(pp.GetXPos()); ry[4] = mtoi(pp.GetYPos()); counted[4] = true; rxspeed[4]=pp.GetXSpeed(); ryspeed[4]=pp.GetYSpeed();ryaw[4] = ppyaw;
-					nbytes = listen_to_robot(lr[0],msg);
-					parse_msg(msg, &rx[0], &ry[0], &rxspeed[0], &ryspeed[0], &ryaw[0]);
-					if(calcDistance(rx[0], rx[4], ry[0], ry[4]) <= d_sense && counted[0] == false) {counter++; counted[0] = true;}
-					if(calcDistance(rx[0], rx[4], ry[0], ry[4]) > d_sense && counted[0] == true) {counter--; counted[0] = false;rx[0]=999.0; ry[0]=999.0;}
-
-					nbytes = listen_to_robot(lr[1],msg2);
-					parse_msg(msg2, &rx[1], &ry[1], &rxspeed[1], &ryspeed[1], &ryaw[1]);
-					if(calcDistance(rx[1], rx[4], ry[1], ry[4]) <= d_sense && counted[1] == false) {counter++; counted[1] = true;}
-					if(calcDistance(rx[1], rx[4], ry[1], ry[4]) > d_sense && counted[1] == true) {counter--; counted[1] = false;rx[1]=999.0; ry[1]=999.0;}
-
-					nbytes = listen_to_robot(lr[2],msg3);
-					parse_msg(msg3, &rx[2], &ry[2], &rxspeed[2], &ryspeed[2], &ryaw[2]);
-					if(calcDistance(rx[2], rx[4], ry[2], ry[4]) <= d_sense && counted[2] == false) {counter++; counted[2] = true;}
-					if(calcDistance(rx[2], rx[4], ry[2], ry[4]) > d_sense && counted[2] == true) {counter--; counted[2] = false;rx[2]=999.0; ry[2]=999.0;}
-
-					nbytes = listen_to_robot(lr[3],msg4);
-					parse_msg(msg4, &rx[3], &ry[3], &rxspeed[3], &ryspeed[3], &ryaw[3]);
-					if(calcDistance(rx[3], rx[4], ry[3], ry[4]) <= d_sense && counted[3] == false) {counter++; counted[3] = true;}
-					if(calcDistance(rx[3], rx[4], ry[3], ry[4]) > d_sense && counted[3] == true) {counter--; counted[3] = false;rx[3]=999.0; ry[3]=999.0;}
-
-					nbytes = listen_to_robot(lr[5],msg6);
-					parse_msg(msg6, &rx[5], &ry[5], &rxspeed[5], &ryspeed[5], &ryaw[5]);
-					if(calcDistance(rx[5], rx[4], ry[5], ry[4]) <= d_sense && counted[5] == false) {counter++; counted[5] = true;}
-					if(calcDistance(rx[5], rx[4], ry[5], ry[4]) > d_sense && counted[5] == true) {counter--; counted[5] = false;rx[5]=999.0; ry[5]=999.0;}
+			
+					for (int i = 0; i < 6; ++i)
+					{
+						nbytes = listen_to_robot(lr[i],msg);
+						parse_msg(msg, &rx[i], &ry[i], &rxspeed[i], &ryspeed[i], &ryaw[i]);
+						if(calcDistance(rx[i], rx[4], ry[i], ry[4]) <= d_sense && counted[i] == false) {counter++; counted[i] = true;}
+						if(calcDistance(rx[i], rx[4], ry[i], ry[4]) > d_sense && counted[i] == true) {counter--; counted[i] = false;rx[i]=999.0; ry[i]=999.0;}
+					}					
 					if(counter > 1){
 						cx = calcCentroidX(rx, counter, counted); 
 						cy = calcCentroidY(ry, counter, counted);
@@ -579,33 +492,18 @@ int main(int argc, char** argv)
 						if(rxspeed[i] == 0 && ryspeed[i] == 0) rSpeed[i] = true;
 						else rSpeed[i] = false;
 					}
+
 					break;
 				case 7782: //for r[5]
 					rx[5] = mtoi(pp.GetXPos()); ry[5] = mtoi(pp.GetYPos()); counted[5] = true; rxspeed[5]=pp.GetXSpeed(); ryspeed[5]=pp.GetYSpeed();ryaw[5] = ppyaw;
-					nbytes = listen_to_robot(lr[0],msg);
-					parse_msg(msg, &rx[0], &ry[0], &rxspeed[0], &ryspeed[0], &ryaw[0]);
-					if(calcDistance(rx[0], rx[5], ry[0], ry[5]) <= d_sense && counted[0] == false) {counter++; counted[0] = true;}
-					if(calcDistance(rx[0], rx[5], ry[0], ry[5]) > d_sense && counted[0] == true) {counter--; counted[0] = false;rx[0]=999.0; ry[0]=999.0;}
-
-					nbytes = listen_to_robot(lr[1],msg2);
-					parse_msg(msg2, &rx[1], &ry[1], &rxspeed[1], &ryspeed[1], &ryaw[1]);
-					if(calcDistance(rx[1], rx[5], ry[1], ry[5]) <= d_sense && counted[1] == false) {counter++; counted[1] = true;}
-					if(calcDistance(rx[1], rx[5], ry[1], ry[5]) > d_sense && counted[1] == true) {counter--; counted[1] = false;rx[1]=999.0; ry[1]=999.0;}
-
-					nbytes = listen_to_robot(lr[2],msg3);
-					parse_msg(msg3, &rx[2], &ry[2], &rxspeed[2], &ryspeed[2], &ryaw[2]);
-					if(calcDistance(rx[2], rx[5], ry[2], ry[5]) <= d_sense && counted[2] == false) {counter++; counted[2] = true;}
-					if(calcDistance(rx[2], rx[5], ry[2], ry[5]) > d_sense && counted[2] == true) {counter--; counted[2] = false;rx[2]=999.0; ry[2]=999.0;}
-
-					nbytes = listen_to_robot(lr[3],msg4);
-					parse_msg(msg4, &rx[3], &ry[3], &rxspeed[3], &ryspeed[3], &ryaw[3]);
-					if(calcDistance(rx[3], rx[5], ry[3], ry[5]) <= d_sense && counted[3] == false) {counter++; counted[3] = true;}
-					if(calcDistance(rx[3], rx[5], ry[3], ry[5]) > d_sense && counted[3] == true) {counter--; counted[3] = false;rx[3]=999.0; ry[3]=999.0;}
-
-					nbytes = listen_to_robot(lr[4],msg5);
-					parse_msg(msg5, &rx[4], &ry[4], &rxspeed[4], &ryspeed[4], &ryaw[4]);
-					if(calcDistance(rx[4], rx[5], ry[4], ry[5]) <= d_sense && counted[4] == false) {counter++; counted[4] = true;}
-					if(calcDistance(rx[4], rx[5], ry[4], ry[5]) > d_sense && counted[4] == true) {counter--; counted[4] = false;rx[4]=999.0; ry[4]=999.0;}
+				
+					for (int i = 0; i < 6; ++i)
+					{
+						nbytes = listen_to_robot(lr[i],msg);
+						parse_msg(msg, &rx[i], &ry[i], &rxspeed[i], &ryspeed[i], &ryaw[i]);
+						if(calcDistance(rx[i], rx[5], ry[i], ry[5]) <= d_sense && counted[i] == false) {counter++; counted[i] = true;}
+						if(calcDistance(rx[i], rx[5], ry[i], ry[5]) > d_sense && counted[i] == true) {counter--; counted[i] = false;rx[i]=999.0; ry[i]=999.0;}
+					}					
 					if(counter > 1){
 						cx = calcCentroidX(rx, counter, counted); 
 						cy = calcCentroidY(ry, counter, counted);
@@ -617,6 +515,7 @@ int main(int argc, char** argv)
 						if(rxspeed[i] == 0 && ryspeed[i] == 0) rSpeed[i] = true;
 						else rSpeed[i] = false;
 					}
+				
 				default: break;		
 
 			}  //end switch
